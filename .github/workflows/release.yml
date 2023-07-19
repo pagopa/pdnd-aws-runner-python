@@ -35,9 +35,9 @@ jobs:
             @semantic-release/git@10.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+      
       - name: VPN Setup
-        uses: pagopa/pdnd-github-actions/ovpn-connect@feature/ovpn-connect
+        uses: pagopa/pdnd-github-actions/ovpn-connect@2153ca2f61cb93e54dea5100957759c0c2772dab
         with:
           OVPN_USERNAME: ${{ secrets.OVPN_USERNAME }}
           OVPN_CLIENT_KEY: ${{ secrets.OVPN_CLIENT_KEY }}
