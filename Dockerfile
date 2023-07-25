@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 RUN pip install --no-cache-dir requests==2.31.0 \
     cryptography==3.3.1 \
     twine==4.0.2 \
-    setuptool==59.6.0 \
+    setuptools==59.6.0 \
     wheel==0.37.1
 
 USER runner
