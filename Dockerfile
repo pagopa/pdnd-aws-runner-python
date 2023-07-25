@@ -8,7 +8,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-pip=22.0.2+dfsg-1ubuntu0.3
 
 # Install Python dependencies
-RUN pip install --no-cache-dir requests==2.31.0
+RUN pip install --no-cache-dir requests==2.31.0 \
+    cryptography==3.3.1 \
+    twine==4.0.2 \
+    setuptool==59.6.0 \
+    wheel==0.37.1
 
 USER runner
 WORKDIR /home/runner
