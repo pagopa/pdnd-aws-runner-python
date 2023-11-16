@@ -6,38 +6,8 @@ resource "github_actions_secret" "github_token" {
   plaintext_value  = jsondecode(data.aws_secretsmanager_secret_version.github_current.secret_string)["PAT_BOT"]
 }
 
-resource "github_actions_secret" "ovpn_username" {
+resource "github_actions_secret" "aws_runner_deploy_role" {
   repository       = var.repo_name
-  secret_name      = "OVPN_USERNAME"
-  plaintext_value = jsondecode(data.aws_secretsmanager_secret_version.github_current.secret_string)["OVPN_USERNAME"]
-}
-
-resource "github_actions_secret" "ovpn_client_key" {
-  repository       = var.repo_name
-  secret_name      = "OVPN_CLIENT_KEY"
-  plaintext_value  = base64decode(jsondecode(data.aws_secretsmanager_secret_version.github_current.secret_string)["OVPN_CLIENT_KEY"])
-}
-
-resource "github_actions_secret" "ovpn_tls_auth_key" {
-  repository       = var.repo_name
-  secret_name      = "OVPN_TLS_AUTH_KEY"
-  plaintext_value  = base64decode(jsondecode(data.aws_secretsmanager_secret_version.github_current.secret_string)["OVPN_TLS_AUTH_KEY"])
-}
-
-resource "github_actions_secret" "nexus_username" {
-  repository       = var.repo_name
-  secret_name      = "NEXUS_USERNAME"
-  plaintext_value  = jsondecode(data.aws_secretsmanager_secret_version.nexus_credentials_current.secret_string)["username"]
-}
-
-resource "github_actions_secret" "nexus_password" {
-  repository       = var.repo_name
-  secret_name      = "NEXUS_PASSWORD"
-  plaintext_value  = jsondecode(data.aws_secretsmanager_secret_version.nexus_credentials_current.secret_string)["password"]
-}
-
-resource "github_actions_variable" "image_registry_url" {
-  repository       = var.repo_name
-  variable_name    = "IMAGE_REGISTRY_URL"
-  value            = var.image_registry_url
+  secret_name      = "PUBLIC_RUNNER_ECR_ROLE"
+  plaintext_value = jsondecode(data.aws_secretsmanager_secret_version.github_current.secret_string)["PUBLIC_RUNNER_ECR_ROLE"]
 }
