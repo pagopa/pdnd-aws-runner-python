@@ -1,9 +1,19 @@
-FROM summerwind/actions-runner-dind:v2.304.0-ubuntu-22.04
+FROM summerwind/actions-runner-dind-rootless:v2.305.0-ubuntu-22.04
 USER root
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    jq\
+    lzip \
+    unzip \
+    jq \
+    ca-certificates=20230311ubuntu0.22.04.1 \
+    wget \
+    apt-transport-https=2.4.9 \
+    lsb-release=11.1.0ubuntu4 \
+    gnupg=2.2.27-3ubuntu2.1 \
+    software-properties-common=0.99.22.7 \
+    gettext-base=0.21-4ubuntu4 \
+    amazon-ecr-credential-helper \
     python3 \
     python3-pip
 
@@ -57,4 +67,4 @@ RUN pip install --no-cache-dir requests==2.31.0 \
 USER runner
 WORKDIR /home/runner
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["entrypoint-dind.sh"]
+CMD ["entrypoint-dind-rootless.sh"]
