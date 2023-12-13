@@ -64,6 +64,23 @@ RUN pip install --no-cache-dir requests==2.31.0 \
     setuptools==59.6.0 \
     wheel==0.37.1
 
+# Kubectl Installation
+RUN curl -LO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+RUN curl -LO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256
+RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+RUN mv kubectl /usr/local/bin/ && chmod +x /usr/local/bin/kubectl
+
+# Helm Installation
+RUN curl https://baltocdn.com/helm/signing.asc | apt-key add
+RUN echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+RUN apt-get update && apt-get -y install helm=3.11.2-1
+
+# Terraform Installation
+RUN curl -LO https://releases.hashicorp.com/terraform/1.3.9/terraform_1.3.9_linux_amd64.zip && \
+    unzip terraform_1.3.9_linux_amd64.zip && \
+    mv terraform /usr/local/bin/terraform && \
+    chmod +x /usr/local/bin/terraform
+
 USER runner
 WORKDIR /home/runner
 ENTRYPOINT ["/bin/bash", "-c"]
