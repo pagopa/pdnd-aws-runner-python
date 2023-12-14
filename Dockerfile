@@ -1,5 +1,6 @@
 FROM summerwind/actions-runner-dind-rootless:v2.305.0-ubuntu-22.04
 USER root
+ARG KUBECTL_VERSION=1.22.15
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
