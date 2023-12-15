@@ -63,7 +63,8 @@ RUN pip install --no-cache-dir requests==2.31.0 \
     cryptography==3.3.1 \
     twine==4.0.2 \
     setuptools==59.6.0 \
-    wheel==0.37.1
+    wheel==0.37.1 \
+    poetry
 
 # Kubectl Installation
 RUN curl -LO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
