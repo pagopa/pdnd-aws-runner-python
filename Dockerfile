@@ -7,7 +7,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     lzip \
     unzip \
     jq \
-    yq \
     ca-certificates=20230311ubuntu0.22.04.1 \
     wget \
     apt-transport-https=2.4.9 \
@@ -18,6 +17,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     amazon-ecr-credential-helper \
     python3 \
     python3-pip
+
+# yq Installation
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
+    chmod a+x /usr/local/bin/yq
 
 # AWS CLI Installation
 WORKDIR /tmp
