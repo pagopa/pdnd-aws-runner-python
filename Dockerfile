@@ -1,11 +1,26 @@
-FROM summerwind/actions-runner-dind:v2.304.0-ubuntu-22.04
+FROM summerwind/actions-runner-dind:v2.305.0-ubuntu-22.04
 USER root
+ARG KUBECTL_VERSION=1.22.15
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
-    jq\
+    lzip \
+    unzip \
+    jq \
+    ca-certificates=20230311ubuntu0.22.04.1 \
+    wget \
+    apt-transport-https=2.4.9 \
+    lsb-release=11.1.0ubuntu4 \
+    gnupg=2.2.27-3ubuntu2.1 \
+    software-properties-common=0.99.22.7 \
+    gettext-base=0.21-4ubuntu4 \
+    amazon-ecr-credential-helper \
     python3 \
     python3-pip
+
+# yq Installation
+RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
+    chmod a+x /usr/local/bin/yq
 
 # AWS CLI Installation
 WORKDIR /tmp
@@ -52,7 +67,25 @@ RUN pip install --no-cache-dir requests==2.31.0 \
     cryptography==3.3.1 \
     twine==4.0.2 \
     setuptools==59.6.0 \
-    wheel==0.37.1
+    wheel==0.37.1 \
+    poetry
+
+# Kubectl Installation
+RUN curl -LO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl
+RUN curl -LO https://dl.k8s.io/release/v${KUBECTL_VERSION}/bin/linux/amd64/kubectl.sha256
+RUN echo "$(cat kubectl.sha256)  kubectl" | sha256sum --check
+RUN mv kubectl /usr/local/bin/ && chmod +x /usr/local/bin/kubectl
+
+# Helm Installation
+RUN curl https://baltocdn.com/helm/signing.asc | apt-key add
+RUN echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/sources.list.d/helm-stable-debian.list
+RUN apt-get update && apt-get -y install helm=3.11.2-1
+
+# Terraform Installation
+RUN curl -LO https://releases.hashicorp.com/terraform/1.3.9/terraform_1.3.9_linux_amd64.zip && \
+    unzip terraform_1.3.9_linux_amd64.zip && \
+    mv terraform /usr/local/bin/terraform && \
+    chmod +x /usr/local/bin/terraform
 
 USER runner
 WORKDIR /home/runner
