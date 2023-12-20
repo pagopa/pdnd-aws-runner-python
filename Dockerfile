@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner-dind-rootless:v2.305.0-ubuntu-22.04
+FROM summerwind/actions-runner-dind:v2.305.0-ubuntu-22.04
 USER root
 ARG KUBECTL_VERSION=1.22.15
 
@@ -90,4 +90,4 @@ RUN curl -LO https://releases.hashicorp.com/terraform/1.3.9/terraform_1.3.9_linu
 USER runner
 WORKDIR /home/runner
 ENTRYPOINT ["/bin/bash", "-c"]
-CMD ["entrypoint-dind-rootless.sh"]
+CMD ["entrypoint-dind.sh"]
