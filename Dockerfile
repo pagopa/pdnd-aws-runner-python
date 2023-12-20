@@ -7,6 +7,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     lzip \
     unzip \
     jq \
+    yq \
     ca-certificates=20230311ubuntu0.22.04.1 \
     wget \
     apt-transport-https=2.4.9 \
