@@ -21,6 +21,9 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # yq Installation
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
     chmod a+x /usr/local/bin/yq
+    
+# simlink python    
+RUN ln -s /usr/bin/python3 /usr/bin/python 
 
 # AWS CLI Installation
 WORKDIR /tmp
@@ -82,8 +85,8 @@ RUN echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/
 RUN apt-get update && apt-get -y install helm=3.11.2-1
 
 # Terraform Installation
-RUN curl -LO https://releases.hashicorp.com/terraform/1.3.9/terraform_1.3.9_linux_amd64.zip && \
-    unzip terraform_1.3.9_linux_amd64.zip && \
+RUN curl -LO https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip && \
+    unzip terraform_1.5.5_linux_amd64.zip && \
     mv terraform /usr/local/bin/terraform && \
     chmod +x /usr/local/bin/terraform
 
