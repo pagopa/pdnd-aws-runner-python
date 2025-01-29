@@ -1,6 +1,8 @@
 FROM summerwind/actions-runner-dind:v2.305.0-ubuntu-22.04
 USER root
 ARG KUBECTL_VERSION=1.22.15
+ARG SPARK_VERSION=3.5.1
+ARG HADOOP_VERSION=3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
@@ -16,7 +18,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     gettext-base=0.21-4ubuntu4 \
     amazon-ecr-credential-helper \
     python3 \
-    python3-pip
+    python3-pip \
+    openjdk-11-jdk
 
 # yq Installation
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
@@ -89,6 +92,18 @@ RUN curl -LO https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linu
     unzip terraform_1.5.5_linux_amd64.zip && \
     mv terraform /usr/local/bin/terraform && \
     chmod +x /usr/local/bin/terraform
+
+# Spark Installation
+RUN wget -qO /tmp/spark.tgz "https://archive.apache.org/dist/spark/spark-${SPARK_VERSION}/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION}.tgz" && \
+    tar -xvzf /tmp/spark.tgz -C /opt && \
+    ln -s /opt/spark-${SPARK_VERSION}-bin-hadoop${HADOOP_VERSION} /opt/spark && \
+    rm /tmp/spark.tgz
+
+# Spark environment variables
+ENV SPARK_HOME=/opt/spark
+ENV PATH=$SPARK_HOME/bin:$PATH
+ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+ENV PATH=$JAVA_HOME/bin:$PATH
 
 USER runner
 WORKDIR /home/runner
