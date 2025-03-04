@@ -4,29 +4,44 @@ ARG KUBECTL_VERSION=1.22.15
 ARG SPARK_VERSION=3.5.1
 ARG HADOOP_VERSION=3
 
+# Installazione delle dipendenze di base
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     lzip \
     unzip \
     jq \
-    ca-certificates=20230311ubuntu0.22.04.1 \
     wget \
+    #apt-utils \
+    build-essential \
+    ca-certificates=20230311ubuntu0.22.04.1 \
     apt-transport-https=2.4.9 \
     lsb-release=11.1.0ubuntu4 \
     gnupg=2.2.27-3ubuntu2.1 \
     software-properties-common=0.99.22.7 \
     gettext-base=0.21-4ubuntu4 \
     amazon-ecr-credential-helper \
-    python3 \
-    python3-pip \
     openjdk-11-jdk
+
+# Aggiunge il repository deadsnakes per Python 3.9
+RUN add-apt-repository ppa:deadsnakes/ppa && \
+    apt-get update && \
+    apt-get install -y libkrb5-dev python3.9 python3.9-venv python3.9-dev python3.9-distutils 
+
+# Installa pip per Python 3.9
+RUN curl -sS https://bootstrap.pypa.io/get-pip.py | python3.9
+
+# Collegamenti simbolici per usare python e pip come predefiniti
+RUN ln -sf /usr/bin/python3.9 /usr/bin/python3 && \
+    ln -sf /usr/bin/python3.9 /usr/bin/python && \
+    ln -sf /usr/local/bin/pip /usr/bin/pip && \
+    ln -sf /usr/local/bin/pip /usr/bin/pip3
 
 # yq Installation
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
     chmod a+x /usr/local/bin/yq
-    
-# simlink python    
-RUN ln -s /usr/bin/python3 /usr/bin/python 
+
+# Mostra la versione di Python e pip per confermare l'installazione
+RUN python3 --version && pip --version
 
 # AWS CLI Installation
 WORKDIR /tmp
