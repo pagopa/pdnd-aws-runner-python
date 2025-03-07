@@ -12,6 +12,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     unzip \
     python3 \
     python3-pip \
+    build-essential \
     libkrb5-dev \
     python3-venv \
     openjdk-11-jdk \
