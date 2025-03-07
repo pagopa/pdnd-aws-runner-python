@@ -25,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     python3-venv \
     python3-distutils
 
-RUN apt-get update && sudo apt-get install -y apt-utils
+RUN apt-get update && apt-get upgrade && apt-ge install -y --no-install-recommends apt-utils
 
 # yq Installation
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
