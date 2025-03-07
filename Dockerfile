@@ -5,24 +5,27 @@ ARG SPARK_VERSION=3.5.1
 ARG HADOOP_VERSION=3
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    jq \
     curl \
     lzip \
-    wget \
     unzip \
-    python3 \
-    python3-pip \
-    libkrb5-dev \
-    python3-venv \
-    openjdk-11-jdk \
-    python3-distutils \
-    gnupg=2.2.27-3ubuntu2.1 \
+    jq \
+    ca-certificates=20230311ubuntu0.22.04.1 \
+    wget \
     apt-transport-https=2.4.9 \
     lsb-release=11.1.0ubuntu4 \
+    gnupg=2.2.27-3ubuntu2.1 \
+    software-properties-common=0.99.22.7 \
     gettext-base=0.21-4ubuntu4 \
     amazon-ecr-credential-helper \
-    software-properties-common=0.99.22.7 \
-    ca-certificates=20230311ubuntu0.22.04.1
+    python3 \
+    python3-pip \
+    openjdk-11-jdk \
+    build-essential \
+    libkrb5-dev \
+    python3-venv \
+    python3-distutils
+
+RUN apt-get update && apt-get install -y --no-install-recommends apt-utils
 
 # yq Installation
 RUN wget -qO /usr/local/bin/yq https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 && \
