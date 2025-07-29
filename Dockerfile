@@ -97,8 +97,8 @@ RUN echo "deb https://baltocdn.com/helm/stable/debian/ all main" | tee /etc/apt/
 RUN apt-get update && apt-get -y install helm=3.11.2-1
 
 # Terraform Installation
-RUN curl -LO https://releases.hashicorp.com/terraform/1.5.5/terraform_1.5.5_linux_amd64.zip && \
-    unzip terraform_1.5.5_linux_amd64.zip && \
+RUN curl -LO https://releases.hashicorp.com/terraform/1.12.1/terraform_1.12.1_linux_amd64.zip && \
+    unzip terraform_1.12.1_linux_amd64.zip && \
     mv terraform /usr/local/bin/terraform && \
     chmod +x /usr/local/bin/terraform
 
