@@ -1,4 +1,4 @@
-FROM summerwind/actions-runner-dind:v2.305.0-ubuntu-22.04
+FROM summerwind/actions-runner-dind:v2.305.0-ubuntu-22.04@sha256:db36fd10f6f9770a5d6ad99f62879fa9583b09513ca6ec997669e0415c7522f8
 USER root
 ARG KUBECTL_VERSION=1.22.15
 ARG SPARK_VERSION=3.5.1
